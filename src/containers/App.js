@@ -120,7 +120,7 @@ calculateFaceLocation=(data)=>{
           .then(data => this.calculateFaceLocation(data))
           .then(box => { 
             if(box) {
-              fetch('http://https://stark-chamber-11079.herokuapp.com/image', {
+              fetch('https://stark-chamber-11079.herokuapp.com/image', {
                 method:'PUT',
                 headers:{'Content-Type':'application/json'},
                 body:JSON.stringify({
