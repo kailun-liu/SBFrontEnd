@@ -1,4 +1,26 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { setLoadUser } from '../../actions';
+
+const mapStateToProps = (state) => { //send object to the props
+  return {
+    user: {
+        id:state.loadUser.id,
+        name:state.loadUser.name,
+        email:state.loadUser.email,
+        entries: state.loadUser.entries,
+        joined: state.loadUser.joined
+  		}
+	}
+}
+
+const mapDispatchToProps = (dispatch) => { //send object to the props
+  return {
+
+   onLoadUser: (data) => dispatch(setLoadUser(data))
+
+  }
+}
 
 const  Rank = ({user}) => {
 	return (
@@ -12,4 +34,5 @@ const  Rank = ({user}) => {
 		</div>
 	);
 }
-export default Rank;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Rank);

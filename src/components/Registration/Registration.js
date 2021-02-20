@@ -1,37 +1,46 @@
 import React from 'react';
 import './Registration.css';
+import { connect } from 'react-redux';
+import { setEmailChange, setPasswordChange, setLoadUser, setRouteChange, setNameChange } from '../../actions';
+
+
+const mapStateToProps = (state) => { //send object to the props
+  return {
+	signInEmail:state.emailChange.signInEmail,
+	signInPassword:state.passwordChange.signInPassword,
+	signInName: state.nameChange.signInName,
+    user: {
+        id:state.loadUser.id,
+        name:state.loadUser.name,
+        email:state.loadUser.email,
+        entries: state.loadUser.entries,
+        joined: state.loadUser.joined
+    }
+  }
+}
+
+const mapDispatchToProps = (dispatch) => { //send object to the props
+  return {
+
+   onEmailChange: (event) => dispatch(setEmailChange(event.target.value)),
+   onPasswordChange: (event) => dispatch(setPasswordChange(event.target.value)),
+   onNameChange: (event) => dispatch(setNameChange(event.target.value)),
+   onLoadUser: (data) => dispatch(setLoadUser(data)),
+   onRouteChange: (route)=>dispatch(setRouteChange(route))
+
+  }
+}
 
 class Registration extends React.Component {
-	
-	constructor(props){
-		super(props);
-		this.state = {
-			email:'',
-			password:'',
-			name:''
-		}
-	}
-
-	onNameChange = (event) => {
-		this.setState({name:event.target.value})
-	}
-
-	onEmailChange = (event) => {
-		this.setState({email:event.target.value})
-	}
-
-	onPasswordChange = (event) => {
-		this.setState({password:event.target.value})
-	}
 
 	onSubmitRegister = () => {
 		fetch('https://stark-chamber-11079.herokuapp.com/register', {
 			method:'POST',
 			headers:{'Content-Type':'application/json'},
 			body: JSON.stringify({
-				email:this.state.email,
-				password:this.state.password,
-				name: this.state.name
+				email:this.props.signInEmail,
+				password:this.props.signInPassword,
+				name: this.props.signInName
 			})
 		})
 		 .then(resp=>resp.json())
@@ -57,7 +66,7 @@ class Registration extends React.Component {
 		 		alert("incorrect password format");
 
 		 	} else {
-		 		this.props.loadUser(data[0]);
+		 		this.props.onLoadUser(data[0]);
 		 		this.props.onRouteChange('SignIn');
 		 	}
 		 })
@@ -78,15 +87,15 @@ class Registration extends React.Component {
 				      <legend className="f4 fw6 ph0 mh0">Registration</legend>
 				      <div className="mt3">
 				        <label className="db fw6 lh-copy f6" htmlFor="registration-username">Username</label>
-				        <input onChange={this.onNameChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="registration-username"  id="registration-username"/>
+				        <input onChange={this.props.onNameChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="registration-username"  id="registration-username"/>
 				      </div>
 				      <div className="mt3">
 				        <label className="db fw6 lh-copy f6" htmlFor="registration-email-address">Email</label>
-				        <input onChange={this.onEmailChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="registration-email-address"  id="registration-email-address"/>
+				        <input onChange={this.props.onEmailChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="registration-email-address"  id="registration-email-address"/>
 				      </div>
 				      <div className="mv3 tooltip">
 				        <label className="db fw6 lh-copy f6" htmlFor="registration-password">Password</label>				        
-				        <input onChange={this.onPasswordChange} className="checkformat b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="registration-password"  id="registration-password"/>
+				        <input onChange={this.props.onPasswordChange} className="checkformat b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="registration-password"  id="registration-password"/>
 				      	<span className='tooltiptext'>Password needs between 8 to 15 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character</span>
 				      </div>		      
 				    </fieldset>
@@ -101,4 +110,4 @@ class Registration extends React.Component {
   }
 }
 
-export default Registration;
+export default connect(mapStateToProps, mapDispatchToProps)(Registration);

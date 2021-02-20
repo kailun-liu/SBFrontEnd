@@ -1,0 +1,29 @@
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+
+}
+
+.container { 
+  top: 50%;
+  position: relative;
+}
+
+
+
+.loadingcenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  position:relative;
+  background: linear-gradient(to right, rgb(142, 240, 142), rgb(223, 237, 222));
+}

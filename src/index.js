@@ -4,11 +4,21 @@ import './index.css';
 import App from './containers/App';
 import reportWebVitals from './reportWebVitals';
 import 'tachyons';
+import { Provider, connect } from 'react-redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createLogger } from 'redux-logger';
+import  thunkMiddleware  from 'redux-thunk';
+import { inputChange, emailChange, passwordChange, loadUser, routeChange, nameChange } from './reducers';
 
+const rootReducer = combineReducers({inputChange, emailChange, passwordChange, loadUser, routeChange, nameChange}) // combine all of reducers into rootReducer
+const logger = createLogger(); //log each action for debugging //or redux devtool
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, logger)); //Create object tree of Redux State (redux libary)
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+  	<Provider store={store}>  
+    	<App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
