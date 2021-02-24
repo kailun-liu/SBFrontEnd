@@ -48,22 +48,27 @@ class Registration extends React.Component {
 		 .then(data=>{
 		 	if (data==='InValidEmail')
 		 	{
+		 		this.props.onRouteChange('LoginOff');
 		 		alert("The Email Has Been Registered");
 		 		
 		 	} else if (data==='incorrect form submission'){
 
+		 		this.props.onRouteChange('LoginOff');
 		 		alert("incorrect form submission");
 
 		 	} else if (data==='incorrect email and password format'){
 
+		 		this.props.onRouteChange('LoginOff');
 		 		alert("incorrect email and password format");
 
 		 	} else if (data==='incorrect email format'){
 
+		 		this.props.onRouteChange('LoginOff');
 		 		alert("incorrect email format");
 
 		 	} else if (data==='incorrect password format'){
-
+		 		
+		 		this.props.onRouteChange('LoginOff');
 		 		alert("incorrect password format");
 
 		 	} else {
