@@ -34,6 +34,7 @@ const mapDispatchToProps = (dispatch) => { //send object to the props
 class Registration extends React.Component {
 
 	onSubmitRegister = () => {
+		this.props.onRouteChange('Loading');
 		fetch('https://stark-chamber-11079.herokuapp.com/register', {
 			method:'POST',
 			headers:{'Content-Type':'application/json'},
